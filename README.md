@@ -1,2 +1,1 @@
-# GUI
-###GUI lecture
+# GUI Lecture
