@@ -12,9 +12,9 @@ public class Label extends JFrame {
 		contentPane = getContentPane();
 		contentPane.setLayout(new FlowLayout());
 		JLabel textLabel = new JLabel("사랑합니다.");
-		ImageIcon hreat = new ImageIcon("hreat.png");
+		ImageIcon hreat = new ImageIcon("images/hreat.png");
 		JLabel imageLabel = new JLabel(hreat);
-		ImageIcon phone = new ImageIcon("phone.jpg");
+		ImageIcon phone = new ImageIcon("images/phone.jpg");
 		JLabel label = new JLabel("보고싶으면 전화하세요", phone, SwingConstants.CENTER);
 		
 		contentPane.add(textLabel);

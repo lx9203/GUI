@@ -11,9 +11,9 @@ public class CheckBox extends JFrame {
 	contentPane = getContentPane();
 	contentPane.setLayout(new FlowLayout());
 	
-	ImageIcon cherryIcon = new ImageIcon("cherry.jpg");
+	ImageIcon cherryIcon = new ImageIcon("images/cherry.jpg");
 	ImageIcon selectedCherryIcon = 
-			new ImageIcon("checkcherry.jpg");
+			new ImageIcon("images/checkcherry.jpg");
 	
 	JCheckBox apple = new JCheckBox("사과");
 	JCheckBox pear = new JCheckBox("배", true);

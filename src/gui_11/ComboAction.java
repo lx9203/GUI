@@ -9,10 +9,10 @@ public class ComboAction extends JFrame {
 	Container contentPane;
 	String[] fruits = {"apple","banana","kiwi","mango"};
 	ImageIcon[] images = {
-			new ImageIcon("apple.jpg"),
-			new ImageIcon("banana.jpg"),
-			new ImageIcon("kiwi.jpg"),
-			new ImageIcon("mango.jpg")};
+			new ImageIcon("images/apple.jpg"),
+			new ImageIcon("images/banana.jpg"),
+			new ImageIcon("images/kiwi.jpg"),
+			new ImageIcon("images/mango.jpg")};
 	JLabel imgLabel = new JLabel(images[0]);
 	
 	ComboAction(){

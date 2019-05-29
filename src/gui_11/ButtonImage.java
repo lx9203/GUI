@@ -12,9 +12,9 @@ public class ButtonImage extends JFrame {
 		contentPane = getContentPane();
 		contentPane.setLayout(new FlowLayout()); 
 		
-		ImageIcon normalIcon = new ImageIcon("phone.jpg");
-		ImageIcon rolloverIcon  = new ImageIcon("phone2.jpg");
-		ImageIcon pressedIcon  = new ImageIcon("phone3.jpg");
+		ImageIcon normalIcon = new ImageIcon("images/phone.jpg");
+		ImageIcon rolloverIcon  = new ImageIcon("images/phone2.jpg");
+		ImageIcon pressedIcon  = new ImageIcon("images/phone3.jpg");
 		
 		JButton btn = new JButton("Call~~", normalIcon);
 		btn.setRolloverIcon(rolloverIcon);
