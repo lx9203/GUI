@@ -223,7 +223,7 @@ select * from employee where mod(eno, 2) = 0;
 형변환 함수
 to_char : 날짜형 혹은 숫자형을 문자형으로 변환
 
-ro_char(number|date, 'format')
+to_char(number|date, 'format')
 -format는 작은 따옴표로 묶어서 대소문자를 구분해 사용
 
 format 형식
@@ -238,3 +238,127 @@ select ename, hiredate,
 to_char(hiredate, 'YY-MM'), 
 to_char(hiredate, 'YYYY/MM/DD DAY') 
 from employee;
+
+시간 관련 함수
+AM 또는 PM : 오전(AM), 오후(PM)
+A.M 또는 P.M : 오전(A.M), 오후(P.M)
+HH24 또는 HH12 : 24시 표기법 또는 12시표기법
+MI : 분
+SS : 초
+
+select to_char(sysdate, 'YYYY/MM/DD, HH24:MI:SS) from dual;
+
+통화 기호
+select ename, to_char(salary, 'L999,999') from employee;
+L : 각 지역별 통화 기호 (영문 시 달러화, 일어 시 엔화등)
+
+TO_DATE : 특정 데이터를 날짜형으로 변환
+select * from employee where hiredate=to_date(19810220,'YYYYMMDD');
+
+TO_NUMBER : 특정 데이터를 숫자로 변환
+select '100,000' - '50,000' from dual;
+-> select to_number('100,000','999,999')-to_number('50,000','999,999') from dual;
+
+일반함수
+nvl : null을 특정 값으로 변환
+nvl(commission,0)
+nvl(hiredate, '2019/05/30')
+nvl(jab, 'manager')
+
+nvl2함수
+nvl2(exp1, exp2, exp3) : 
+exp1을 검사하여 결과가 null이면 exp2값을 반환, 그렇지 않으면 exp3값을 반환
+select ename, salary, commission, nvl2(commission, salary*12+commission, salary*12)
+from employee
+
+NULLIF 함수
+nullif(exp1, exp2)
+두 표현식을 비교하여 동일한 경우 null값을 반환, 동일하지 않으면 exp1을 반환
+select NULLIF('A','A'), NULLIF('A','B') from dual;
+
+DECODE 함수
+select ename, dno, decode(dno, 10,'accounting',20,'research',30,'sales',40,'operations',
+'default') as dname from employee order by dno;
+
+CASE 함수
+select ename, dno, case 
+when dno = 10 then 'accounting' 
+when dno = 20 then 'research'
+else 'default'
+end as dname
+from employee;
+
+ex22) 올해 며칠이 지났는지 출력하시오
+select trunc(sysdate - to_data('2019/01/01','YYYY/MM/DD')) from dual;
+
+ex23) decode 함수로 직급에 따라 급여를 인상하도록 하시오
+	직급이 anaiyst 인 사원은 200,
+		salesman인 사원은 180,
+		manager인 사원은 150,
+		clerk인 사원은 100을 인상하시오
+select eno, ename, job, salary, decode(job, 
+'ANALYST',salary+200,
+'SALESMAN',salary+180,
+'MANAGER',salary+150,
+'CLERK',salary+100,
+salary) as update_salary from employee;
+
+ex24) 입사일을 년도 2자리(YY), 월은 숫자(MON)로 표시하고 요일은 약어(DY)로 지정하여 출력하시오
+select eno, ename, to_char(hiredate, 'YY/MON/DD DY')from employee;
+
+그룹함수
+sum : 누적합계
+avg : 평균
+count : 총 개수
+max : 최대값
+min : 최소값
+
+select sum(salary) "급여총액",
+avg(salary) "급여평균",
+max(salary) "최대급여",
+min(salary) "최소급여"
+from employee;
+
+그룹함수는 null값을 자동으로 제외하고 연산
+select sum(commission) "커미션 총액"
+from employee;
+
+select count(distinct job) as "직업의 종류" from employee;
+
+ex25) 소속 부서별 평균 급여를 부서 번호와 함께 출력하시오
+select dno as "부서번호", avg(salary) as "급여평균" 
+from employee group by dno;
+
+group by 다음에 하나 이상의 열을 나열하여 그룹을 나누면 그룹 및 하위 그룹으로 결과를 반환
+select dno, job, count(*), sum(salary) 
+from employee
+group by dno, job
+order by dno, job;
+
+having 그룹 결과 제한
+ex26) 부서별 급여 총액이 3000 이상인 부서의 번호와 부서별 급여 총액을 구하시오
+select dno,max(salary)
+from employee
+group by dno
+having max(salary) >= 3000;
+
+ex27) MANAGER를 제외하고 급여 총액이 5000 이상인 직급별 급여 총액 구하기
+select job, sum(salary)
+from employee
+where job not like '%MANAGER%'
+group by job 
+having max(salary) >= 5000;
+
+ex28)각 업무별로 급여 최고액, 최저액, 총액, 평균을 출력하시오
+	컬럼의 별칭은 직업, 최대값, 최소값, 합계, 평균 지정하고, 평균은 정수로 반올림 하시오
+select job "직업", max(salary) "최대값", min(salary) "최소값", 
+sum(salary) "합계", round(avg(salary),0) "평균"
+from employee
+group by job;
+
+ex29) 각 부서에 대해 부서번호, 사원수, 부서내의 모든 사원의 평균 급여를 출력하시오
+	평균 급여는 소수점 둘째 자리에서 반올림 하시오.
+select dno "DNO", count(*) "사원수", round(avg(salary),2) "평균급여"
+from employee
+group by dno
+order by dno asc;
